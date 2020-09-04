@@ -2,7 +2,10 @@
     <div>
         <nav-bar></nav-bar>
 
-        <router-view></router-view>
+        <!-- keep alive the router-view so that finder route will not lose its data/user preferences when switching -->
+        <keep-alive> 
+            <router-view></router-view>
+        </keep-alive>
     </div>
 </template>
 
