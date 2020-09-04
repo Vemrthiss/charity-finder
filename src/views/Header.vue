@@ -2,7 +2,7 @@
     <div class="header">
         <div class="header__text">
             <h1 class="header__heading">Stifind</h1>
-            <h2 class="header__title">you can be a part of the solution</h2>
+            <h2 class="header__title">be a part of the solution</h2>
             <to-find></to-find>
         </div>
     </div>
@@ -34,6 +34,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: max-content;
         }
 
         &__heading {
@@ -46,6 +47,7 @@
         &__title {
             letter-spacing: 1px;
             text-transform: uppercase;
+            margin-bottom: 5rem;
         }
     }
 </style>

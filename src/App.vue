@@ -17,6 +17,22 @@
 </script>
 
 <style lang="scss">
+    @mixin respond-tab-small {
+        @media only screen and (min-width: 26em){@content;}
+    }
+
+    @mixin respond-tab {
+        @media only screen and (min-width: 48em){@content;}
+    }
+
+    @mixin respond-laptop {
+        @media only screen and (min-width: 64em){@content;}
+    }
+
+    @mixin respond-desktop {
+        @media only screen and (min-width: 86em){@content;}
+    }
+
     *, *::before, *::after {
         box-sizing: inherit;
     }
@@ -30,15 +46,15 @@
     body {
         padding: 0;
 
-        @media only screen and (min-width: 48em) {
+        @include respond-tab {
             padding: 1rem;
         }
 
-        @media only screen and (min-width: 64em) {
+        @include respond-laptop {
             padding: 2rem;
         }
 
-        @media only screen and (min-width: 86em) {
+        @include respond-desktop {
             padding: 3rem;
         }
     }
@@ -47,5 +63,6 @@
         font-family: inherit;
         cursor: pointer;
         border: none;
+        outline: none;
     }
 </style>
