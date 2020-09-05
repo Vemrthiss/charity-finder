@@ -2,8 +2,9 @@
     <div class="project">
         <p>title: {{ details.title }}</p>
         <p>problem: {{ details.need }}</p>
-        <p>Location: {{ details.contactCity }}, {{ details.contactCountry }}</p>
         <p>activities: {{ details.activities }}</p>
+        <p>Location: {{ details.contactCity }}, {{ details.contactCountry }}</p>
+        <p>Summary: {{ details.summary }}</p>
         <p>goal: ${{ details.goal }}; remaining: ${{ details.remaining}}</p>
         <a :href="details.projectLink">Project Link</a>
         <a :href="details.contactUrl">Contact url</a>

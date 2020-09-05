@@ -20,21 +20,7 @@
 </script>
 
 <style lang="scss">
-    @mixin respond-tab-small {
-        @media only screen and (min-width: 26em){@content;}
-    }
-
-    @mixin respond-tab {
-        @media only screen and (min-width: 48em){@content;}
-    }
-
-    @mixin respond-laptop {
-        @media only screen and (min-width: 64em){@content;}
-    }
-
-    @mixin respond-desktop {
-        @media only screen and (min-width: 86em){@content;}
-    }
+    @import "./styles/mixins.scss";
 
     *, *::before, *::after {
         box-sizing: inherit;
@@ -42,8 +28,16 @@
 
     html {
         box-sizing: border-box;
-        font-size: 62.5%;
+        font-size: 50%; //1rem = 8px
         font-family: 'Lato', sans-serif;
+
+        @include respond-tab {
+            font-size: 62.5%; // 1rem = 10px
+        }
+
+        @include respond-desktop {
+            font-size: 75%; //1rem = 12px
+        }
     }
 
     body {
@@ -67,5 +61,32 @@
         cursor: pointer;
         border: none;
         outline: none;
+    }
+
+    .btn__success {
+
+        &:hover {
+            background: var(--color-green-primary);  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, var(--color-green-secondary), var(--color-green-primary));  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, var(--color-green-secondary), var(--color-green-primary)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+    }
+
+    :root {
+        --color-blue-primary-light: #4ddeff;
+        --color-blue-primary: #00d2ff;
+        --color-blue-primary-dark: #00a7cc;
+
+        --color-blue-secondary-light: #578edb;
+        --color-blue-secondary: #3a7bd5;
+        --color-blue-secondary-dark: #245ba8;
+
+        --color-green-primary-light: #bdff99;
+        --color-green-primary: #a8ff78;
+        --color-green-primary-dark: #8bff4d;
+
+        --color-green-secondary-light: #99ffe0;
+        --color-green-secondary: #78ffd6;
+        --color-green-secondary-dark: #33ffc2;
     }
 </style>

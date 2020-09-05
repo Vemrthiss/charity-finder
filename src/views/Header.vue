@@ -20,9 +20,9 @@
 
 <style lang="scss" scoped>
     .header {
-        background: #00d2ff;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #3a7bd5, #00d2ff);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #3a7bd5, #00d2ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: var(--color-blue-primary);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, var(--color-blue-secondary), var(--color-blue-primary));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, var(--color-blue-secondary), var(--color-blue-primary)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         color: white;
         text-align: center;
         height: 85vh;
