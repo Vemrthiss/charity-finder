@@ -5,20 +5,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    urlReqs: {
-      'getThemes': `https://api.globalgiving.org/api/public/projectservice/themes?api_key=${process.env.VUE_APP_API_KEY}`,
-      'getProjects': `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${process.env.VUE_APP_API_KEY}`
+    urlReqs: { // THESE LINKS NOT IN USE AS GETTING DATA FROM FIREBASE INSTEAD
+      'getThemesAPI': `https://api.globalgiving.org/api/public/projectservice/themes?api_key=${process.env.VUE_APP_API_KEY}`,
+      'getProjectsAPI': `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${process.env.VUE_APP_API_KEY}`
     },
     themes: [],
     projects: []
   },
   getters: {
     getUrl: state => type => {
-      const url = type === 'themes' ? 'getThemes' : 'getProjects'; 
+      const url = type === 'themes' ? 'getThemesAPI' : 'getProjectsAPI'; 
       return state.urlReqs[url];
     },
     getAllThemes: state => {
       return state.themes;
+    },
+    getAllProjects: state => {
+      return state.projects;
     }
   },
   mutations: {

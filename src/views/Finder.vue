@@ -3,17 +3,29 @@
         <h1>This is the finder page</h1>
         <button @click="getData">show state data</button>
         <button @click="showLinks">show axios links</button>
-        <button @click="getProjects">add projects to firebase</button>
+
+        <button @click="page--">prev page</button>
+        <button @click="page++">next page</button>
+
+        <ul>
+            <li v-for="(project, index) of getStateProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
+                <proj-overview :details="project"></proj-overview>
+            </li>
+        </ul>
+
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import ProjectOverview from '../components/ProjectOverview.vue';
 
     export default {
         data: function() {
             return {
-                apiData: 'nothing'
+                apiData: 'nothing',
+                page: 1,
+                resPerPage: 10
             }
         },
         computed: {
@@ -22,6 +34,15 @@
             },
             projectsURL() {
                 return this.$store.getters.getUrl('projects');
+            },
+            getStateProjects() {
+                return this.$store.getters.getAllProjects;
+            },
+            projectIndices() {
+                return {
+                    start: (this.page-1) * this.resPerPage,
+                    end: this.page * this.resPerPage
+                }
             }
         },
         methods: {
@@ -94,6 +115,9 @@
 
             // get all projects
             this.getProjects();
+        },
+        components: {
+            projOverview: ProjectOverview
         }
     }
 </script>
