@@ -13,7 +13,7 @@
 
         <ul class="finder__grid">
             <li v-for="(project, index) of getStateProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
-                <proj-overview :details="project"></proj-overview>
+                <proj-overview :details="project" :viewWidth="viewWidth"></proj-overview>
             </li>
         </ul>
 
@@ -22,6 +22,7 @@
 
 <script>
     import axios from 'axios';
+    import debounce from 'lodash/debounce';
     import ProjectOverview from '../components/ProjectOverview.vue';
 
     export default {
@@ -29,7 +30,8 @@
             return {
                 apiData: 'nothing',
                 page: 1,
-                resPerPage: 10
+                resPerPage: 10,
+                viewWidth: window.innerWidth
             }
         },
         computed: {
@@ -133,7 +135,10 @@
             // get all projects
             this.getProjects();
 
-            // this.getLastDateUpdate();
+            // set up resize window event to pass currrent viewport width into project overview component as prop
+            window.addEventListener('resize', debounce(()=> {
+                this.viewWidth = window.innerWidth;
+            }, 300));
         },
         components: {
             projOverview: ProjectOverview
@@ -148,8 +153,7 @@
 
         &__grid {
             display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: min-content;
+            grid-template-columns: 100%; //so the grid items don't exceed the vw (for mobile esp)
             list-style: none;
             gap: 2rem;
             padding: 0;

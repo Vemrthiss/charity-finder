@@ -10,8 +10,7 @@ export default new Vuex.Store({
       'getProjectsAPI': `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${process.env.VUE_APP_API_KEY}`
     },
     themes: [],
-    projects: [],
-    // dateUpdated: ''
+    projects: []
   },
   getters: {
     getUrl: state => type => {
@@ -23,10 +22,7 @@ export default new Vuex.Store({
     },
     getAllProjects: state => {
       return state.projects;
-    },
-    // getLastUpdate: state => {
-    //   return state.dateUpdated;
-    // }
+    }
   },
   mutations: {
     addThemes(state, payload) {
@@ -34,9 +30,6 @@ export default new Vuex.Store({
     },
     addProjects(state, payload) {
       state.projects = payload;
-    },
-    changeDateUpdated(state, payload) {
-      state.dateUpdated = payload;
     }
   },
   actions: {
@@ -45,9 +38,6 @@ export default new Vuex.Store({
     },
     addProjects({commit}, payload) { //payload is a single array of project objects
       commit('addProjects', payload);
-    },
-    // changeDateUpdated({commit}, payload) {
-    //   commit('changeDateUpdated', payload);
-    // }
+    }
   }
 })
