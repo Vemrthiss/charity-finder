@@ -6,7 +6,7 @@
         <!-- <button @click="updateServer">update the server</button> -->
         <!-- <p>Data last updated: {{ lastUpdate }}</p> -->
 
-
+        <search-bar></search-bar>
 
         <button @click="page--">prev page</button>
         <button @click="page++">next page</button>
@@ -24,6 +24,7 @@
     import axios from 'axios';
     import debounce from 'lodash/debounce';
     import ProjectOverview from '../components/ProjectOverview.vue';
+    import SearchBar from '../components/SearchBar.vue';
 
     export default {
         data: function() {
@@ -141,7 +142,8 @@
             }, 300));
         },
         components: {
-            projOverview: ProjectOverview
+            projOverview: ProjectOverview,
+            searchBar: SearchBar
         }
     }
 </script>

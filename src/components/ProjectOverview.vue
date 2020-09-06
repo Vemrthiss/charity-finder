@@ -22,10 +22,10 @@
                 <a class="project__link" :href="details.projectLink">Project Link</a>
             </div>
             
-            <button class="btn btn__success project__btn">Overview of Project</button>
+            <button class="btn btn__success project__btn" @click="showOverlay = !showOverlay">Overview of Project</button>
         </div>
 
-        <div class="project__footer" v-if="viewWidth > 1366">
+        <div class="project__footer" v-if="onLaptop">
             <div class="project-wrapper project__location-wrapper">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin project__icon project__icon--location" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z"/>
@@ -33,7 +33,7 @@
                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1 -2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z" />
                 </svg>
 
-                <p class="project__location">{{ details.contactCity }}, {{ details.contactCountry }}</p>
+                <p class="project__location">{{ details.country }}</p>
             </div>
             
             <div class="project__themes-wrapper project__themes-wrapper--inline">
@@ -55,7 +55,7 @@
                     <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1 -2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z" />
                 </svg>
 
-                <p class="project__location">{{ details.contactCity }}, {{ details.contactCountry }}</p>
+                <p class="project__location">{{ details.country }}</p>
             </div>
             
             <div class="project__themes-wrapper">
@@ -68,11 +68,20 @@
                 </ul>
             </div>
         </template>
+        
+        <project-details v-if="showOverlay" :details="details" :onLaptop="onLaptop" @close-overlay="showOverlay = false"></project-details>
     </div>
 </template>
 
 <script>
+    import ProjectDetails from './ProjectDetails.vue';
+
     export default {
+        data: function() {
+            return {
+                showOverlay: false
+            }
+        },
         props: {
             details: Object,
             viewWidth: Number
@@ -83,7 +92,13 @@
             },
             projectCompletion() {
                 return `${100 - Math.round(this.amountRemaining / this.details.goal * 100)}%`;
+            },
+            onLaptop() {
+                return this.viewWidth > 1024;
             }
+        },
+        components: {
+            projectDetails: ProjectDetails
         }
     }
 </script>
@@ -209,7 +224,7 @@
             align-items: center;
 
             &--inline {
-                max-width: 60%;
+                max-width: 50%;
             }
         }
 
