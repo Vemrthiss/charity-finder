@@ -10,7 +10,13 @@ export default new Vuex.Store({
       'getProjectsAPI': `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${process.env.VUE_APP_API_KEY}`
     },
     themes: [],
-    projects: []
+    projects: [],
+    queries: {
+      text: '',
+      country: '',
+      themes: []
+    },
+    queriedProjects: []
   },
   getters: {
     getUrl: state => type => {
@@ -22,6 +28,12 @@ export default new Vuex.Store({
     },
     getAllProjects: state => {
       return state.projects;
+    },
+    getQueries: state => {
+      return state.queries;
+    },
+    getQueriedProjects: state => {
+      return state.queriedProjects;
     }
   },
   mutations: {
@@ -30,6 +42,51 @@ export default new Vuex.Store({
     },
     addProjects(state, payload) {
       state.projects = payload;
+    },
+    setInitialQueriedProjects(state) { //for app/finder route initialisation
+      state.queriedProjects = state.projects;
+    },
+    editQueries(state, payload) { //payload is an object specifying which query to edit/add and its (new) value
+      if (payload.queryType === 'themes') {
+        state.queries.themes.push(payload.query);
+      } else {
+        state.queries[payload.queryType] = payload.query;
+      }
+    },
+    removeThemeQuery(state, payload) { //payload is a string representing the theme to delete
+      state.queries.themes = state.queries.themes.filter(theme => theme !== payload); 
+    },
+    filterProjects(state) {
+      const textQuery = state.queries.text;
+      const countryQuery = state.queries.country;
+      const themesQuery = state.queries.themes; //an array
+
+      if (!textQuery && !countryQuery && themesQuery.length === 0) { //if there are NO queries, display all projects. empty strings are falsey. empty array is truthy, so use length check
+        state.queriedProjects = state.projects;
+      } else { // executed when there are SOME queries
+        state.queriedProjects = state.projects.filter(proj => {
+          let hasText, hasCountry, hasTheme;
+
+          //must check if textQuery is empty else String.includes returns true
+          //default setting: if there is NO text Query, this will be true for final check (see last line of this callback fn)
+          hasText = textQuery ? proj.title.toLowerCase().includes(textQuery.toLowerCase()) : true;
+          hasCountry = countryQuery ? proj.country.toLowerCase().includes(countryQuery.toLowerCase()) : true;
+
+          if (themesQuery.length !== 0) { //if there are theme queries
+            for (const theme of themesQuery) { // theme checking is an OR case, as long as 1 theme query is included in proj, this proj is queried
+              if (proj.themes.includes(theme)) { // [CASE SENSITIVE] checks if proj's themes array includes any theme, as long as it includes 1 of them, return true
+                hasTheme = true;
+                break;
+              }
+            }
+          } else {
+            hasTheme = true;
+          }
+
+          // all 3 conditions must be fulfilled, those queries that are empty will have default value of true
+          return hasText && hasCountry && hasTheme;
+        });
+      }
     }
   },
   actions: {
@@ -38,6 +95,36 @@ export default new Vuex.Store({
     },
     addProjects({commit}, payload) { //payload is a single array of project objects
       commit('addProjects', payload);
+    },
+    setInitialQueriedProjects({commit}) {
+      commit('setInitialQueriedProjects');
+    },
+    changeTextQuery({commit}, payload) { //payload is a string value to add/edit in the state.queries object
+      const mutationPayload = {
+        queryType: 'text',
+        query: payload
+      };
+      commit('editQueries', mutationPayload);
+    },
+    changeCountryQuery({commit}, payload) { //payload is a string value to add/edit in the state.queries object
+      const mutationPayload = {
+        queryType: 'country',
+        query: payload
+      };
+      commit('editQueries', mutationPayload);
+    },
+    addThemeQuery({commit}, payload) {
+      const mutationPayload = {
+        queryType: 'themes',
+        query: payload
+      };
+      commit('editQueries', mutationPayload);
+    },
+    removeThemeQuery({commit}, payload) { //payload is a string representing the theme to delete
+      commit('removeThemeQuery', payload);
+    },
+    filterProjects({commit}) {
+      commit('filterProjects');
     }
   }
 })

@@ -4,15 +4,14 @@
         <button @click="getState">show state data</button>
         <button @click="showLinks">show axios links</button>
         <!-- <button @click="updateServer">update the server</button> -->
-        <!-- <p>Data last updated: {{ lastUpdate }}</p> -->
 
         <search-bar></search-bar>
 
-        <button @click="page--">prev page</button>
-        <button @click="page++">next page</button>
+        <button @click="page--" :disabled="page === 1">prev page</button>
+        <button @click="page++" :disabled="page === numOfPages ">next page</button>
 
         <ul class="finder__grid">
-            <li v-for="(project, index) of getStateProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
+            <li v-for="(project, index) of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
                 <proj-overview :details="project" :viewWidth="viewWidth"></proj-overview>
             </li>
         </ul>
@@ -45,15 +44,24 @@
             getStateProjects() {
                 return this.$store.getters.getAllProjects;
             },
-            projectIndices() {
-                return {
-                    start: (this.page-1) * this.resPerPage,
-                    end: this.page * this.resPerPage
-                }
+            getQueriedProjects() {
+                return this.$store.getters.getQueriedProjects;
             },
-            // lastUpdate() {
-            //     return this.$store.getters.getLastUpdate;
-            // }
+            numOfProjects() {
+                return this.getQueriedProjects.length;
+            },
+            numOfPages() {
+                return Math.ceil(this.numOfProjects / this.resPerPage);
+            },
+            projectIndices() {
+                let start = (this.page-1) * this.resPerPage;
+                let end = this.page * this.resPerPage > this.numOfProjects ? this.numOfProjects : this.page * this.resPerPage //prevents invalud/overshot end index
+                
+                return { //es6 shorthand property name
+                    start,
+                    end 
+                }
+            }
         },
         methods: {
             getState() {
@@ -79,17 +87,11 @@
                 const projectsObj = await axios.get('https://charity-finder-710a7.firebaseio.com/projects.json');
                 this.$store.dispatch('addProjects', projectsObj.data);
 
+                // now this route is rendering the queried array all the time, and on route creation (this route is kept alive) we set the queried array to be the whole project array
+                this.$store.dispatch('setInitialQueriedProjects');
+                
                 console.log('completed projects');
             },
-            // async getLastDateUpdate() {
-            //     // FIREBASE RETRIEVING
-            //     console.log('retrieving date');
-
-            //     const dateObj = await axios.get('https://charity-finder-710a7.firebaseio.com/date.json');
-            //     this.$store.dispatch('changeDateUpdated', dateObj.data);
-
-            //     console.log('completed date');
-            // },
             // async updateServer() {
             //     console.log('update started');
 
@@ -107,29 +109,28 @@
             //         projects.push(element);
             //     });
 
+            //     let count = 1;
+
             //     while (result.data.projects.hasNext) { //recursively search for projects as there can only be 10 searches per request
             //         const newResult = await axios.get(`${this.projectsURL}&nextProjectId=${result.data.projects.nextProjectId}`);
             //         result = newResult;
             //         result.data.projects.project.forEach(element => {
             //             projects.push(element);
             //         });
+            //         count++;
+            //         console.log(count);
             //     }
                 
             //     // ADD TO FIREBASE
             //     await axios.put('https://charity-finder-710a7.firebaseio.com/themes.json', themes);
             //     await axios.put('https://charity-finder-710a7.firebaseio.com/projects.json', projects);
 
-            //     let today = new Date();
-            //     today = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
-            //     await axios.put('https://charity-finder-710a7.firebaseio.com/date.json', today);
-
             //     alert('Note: refreshing data now'); //letting user know before refreshing data in page
             //     this.getThemes();
             //     this.getProjects();
-            //     this.getLastDateUpdate();
             // }
         },
-        created() {
+        created() { //note the getThemes() and getProjects() are async functions but we are not handling the promise/awaiting it
             // get themes
             this.getThemes();
 
