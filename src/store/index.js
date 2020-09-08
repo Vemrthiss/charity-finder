@@ -47,14 +47,7 @@ export default new Vuex.Store({
       state.queriedProjects = state.projects;
     },
     editQueries(state, payload) { //payload is an object specifying which query to edit/add and its (new) value
-      if (payload.queryType === 'themes') {
-        state.queries.themes.push(payload.query);
-      } else {
-        state.queries[payload.queryType] = payload.query;
-      }
-    },
-    removeThemeQuery(state, payload) { //payload is a string representing the theme to delete
-      state.queries.themes = state.queries.themes.filter(theme => theme !== payload); 
+      state.queries[payload.queryType] = payload.query;
     },
     filterProjects(state) {
       const textQuery = state.queries.text;
@@ -74,10 +67,18 @@ export default new Vuex.Store({
 
           if (themesQuery.length !== 0) { //if there are theme queries
             for (const theme of themesQuery) { // theme checking is an OR case, as long as 1 theme query is included in proj, this proj is queried
-              if (proj.themes.includes(theme)) { // [CASE SENSITIVE] checks if proj's themes array includes any theme, as long as it includes 1 of them, return true
-                hasTheme = true;
+              for (const nameObj of proj.themes.theme) {
+                if (nameObj.name === theme) { // [CASE SENSITIVE] checks if proj's themes array includes any theme, as long as it includes 1 of them, return true
+                  hasTheme = true;
+                  break; //this project has at least 1 queried theme ==> break the nearest for loop
+                }
+              }
+              if (hasTheme) { //if hasTheme is already true for 1 iteration of a single queried theme, break the whole for loop for theme checking of this one project
                 break;
               }
+            }
+            if (!hasTheme) { //executes when there are 0 matches of this project's themes to queried themes
+              hasTheme = false; // need to do this as we are using a "let" variable, which has value of undefined if we don't do this. Although it is falsey, the last boolean statement will not work
             }
           } else {
             hasTheme = true;
@@ -113,15 +114,12 @@ export default new Vuex.Store({
       };
       commit('editQueries', mutationPayload);
     },
-    addThemeQuery({commit}, payload) {
+    editThemeQueries({commit}, payload) { //payload is an array of themes queries
       const mutationPayload = {
         queryType: 'themes',
         query: payload
       };
       commit('editQueries', mutationPayload);
-    },
-    removeThemeQuery({commit}, payload) { //payload is a string representing the theme to delete
-      commit('removeThemeQuery', payload);
     },
     filterProjects({commit}) {
       commit('filterProjects');

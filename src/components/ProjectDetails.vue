@@ -140,9 +140,9 @@
     }
 
     .project-detail {
-        background: #ee9ca7;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #ffdde1, #ee9ca7);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #ffdde1, #ee9ca7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: var(--color-pink-secondary);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, var(--color-pink-primary), var(--color-pink-secondary));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, var(--color-pink-primary), var(--color-pink-secondary)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
         position: absolute;
         top: 50%;
         left: 50%;
@@ -166,7 +166,7 @@
         }
 
         &__close {
-            background-color: #ee9ca7; //background colour of content body
+            background-color: var(--color-pink-secondary); //background colour of content body
             border-radius: inherit;
             position: absolute;
             top: 3px;
@@ -337,9 +337,9 @@
             padding-right: 1rem;
             clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
             color: white;
-            background: #bc4e9c;  /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #f80759, #bc4e9c);  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #f80759, #bc4e9c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: var(--color-purple-primary);  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary));  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
             cursor: pointer;
             transition: all .3s;
@@ -376,11 +376,11 @@
             transition: all .3s;
             
             &:link {
-                color: #f80759;
+                color: var(--color-red-primary);
             }
 
             &:visited {
-                color: #bc4e9c;
+                color: var(--color-purple-primary);
             }
 
             &:hover {

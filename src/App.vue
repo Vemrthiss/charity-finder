@@ -88,5 +88,13 @@
         --color-green-secondary-light: #99ffe0;
         --color-green-secondary: #78ffd6;
         --color-green-secondary-dark: #33ffc2;
+
+        --color-pink-primary: #ffdde1;
+
+        --color-pink-secondary: #ee9ca7;
+
+        --color-red-primary: #f80759;
+
+        --color-purple-primary: #bc4e9c;
     }
 </style>

@@ -23,7 +23,7 @@
     import axios from 'axios';
     import debounce from 'lodash/debounce';
     import ProjectOverview from '../components/ProjectOverview.vue';
-    import SearchBar from '../components/SearchBar.vue';
+    import SearchBar from '../components/Search/SearchBar.vue';
 
     export default {
         data: function() {
