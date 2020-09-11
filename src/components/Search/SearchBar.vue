@@ -16,18 +16,29 @@
                 </div>
             </div>
 
-            <ul v-if="showThemes" class="search__themes-list">
-                <search-theme v-for="theme in themes" :key="theme" :searchThemes="searchThemes" @check-theme="searchThemes = $event">{{ theme }}</search-theme>
-
-                <!-- test code for CSS styling only-->
-                <!-- <search-theme v-for="n in 19" :key="n" :searchThemes="searchThemes" @check-theme="searchThemes = $event">Theme {{n}}</search-theme> -->
-            </ul>
+            <transition name="theme-field">
+                <ul v-if="showThemes" class="search__themes-list">
+                    <search-theme v-for="theme in themes" :key="theme" :searchThemes="searchThemes" @check-theme="searchThemes = $event">{{ theme }}</search-theme>
+                </ul>
+            </transition>
         </div>
+
+        <transition name="filter-bar">
+            <div class="search__filter-bar" v-if="currentThemeQueries.length !== 0">
+                <p class="search__filter-label">Filtering by:</p>
+                <ul class="search__filter-list">
+                    <transition-group name="theme" class="search__filter-list--wrapper">
+                        <filter-theme v-for="theme in currentThemeQueries" :key="theme" :theme="theme" @remove-theme="removeThemeQuery"></filter-theme>
+                    </transition-group>
+                </ul>
+            </div>
+        </transition>
     </div>
 </template>
 
 <script>
     import SearchTheme from './SearchTheme.vue';
+    import FilterTheme from './FilterTheme.vue';
 
     export default {
         data: function() {
@@ -42,14 +53,17 @@
             searchText(newVal) {
                 this.$store.dispatch('changeTextQuery', this.searchText);
                 this.$store.dispatch('filterProjects');
+                this.$emit('changed-query'); // to tell finder component that a query was changed ==> to reset to page 1
             },
             searchCountry(newVal) {
                 this.$store.dispatch('changeCountryQuery', this.searchCountry);
                 this.$store.dispatch('filterProjects');
+                this.$emit('changed-query'); // to tell finder component that a query was changed ==> to reset to page 1
             },
             searchThemes(newVal) {
                 this.$store.dispatch('editThemeQueries', this.searchThemes);
                 this.$store.dispatch('filterProjects');
+                this.$emit('changed-query'); // to tell finder component that a query was changed ==> to reset to page 1
             }
         },
         computed: {
@@ -60,15 +74,23 @@
                 return {
                     transform: this.showThemes ? 'rotateZ(-180deg)' : 'rotateZ(0deg)'
                 }
+            },
+            currentThemeQueries() {
+                return this.$store.getters.getQueries.themes;
             }
         },
         methods: {
             revealThemes() {
                 this.showThemes = !this.showThemes;
+            },
+            removeThemeQuery($event) {
+                const themeClicked = $event;
+                this.searchThemes = this.searchThemes.filter(theme => theme !== themeClicked);
             }
         },
         components: {
-            searchTheme: SearchTheme
+            searchTheme: SearchTheme,
+            filterTheme: FilterTheme
         }
     }
 </script>
@@ -161,5 +183,69 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
+
+        &__filter-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        &__filter-label {
+            margin-right: 1rem;
+        }
+
+        &__filter-list {
+            list-style: none;
+            padding: 0;
+
+            &--wrapper {
+                display: flex;
+            }
+        }
+    }
+
+    .theme-field-enter-active {
+        animation: fadeIn 1s;
+    }
+
+    .theme-field-leave-active {
+        animation: fadeOut .8s;
+    }
+
+    .filter-bar-enter {
+        transform: translateX(-5rem);
+        opacity: 0;
+    }
+
+    .filter-bar-leave-to {
+        transform: translateX(5rem);
+        opacity: 0;
+    }
+
+    .filter-bar-enter-active, .filter-bar-leave-active {
+        transition: all 1s;
+    }
+
+    .theme-enter {
+        transform: translateY(3rem);
+        opacity: 0;
+    }
+
+    .theme-leave-to {
+        transform: translateY(-3rem);
+        opacity: 0;
+    }
+
+    .theme-enter-active, .theme-leave-active {
+        transition: all 1s;
+    }
+
+    .theme-leave-active {
+        position: absolute;
+    }
+
+    .theme-move {
+        transition: transform 1s;
     }
 </style>

@@ -5,12 +5,16 @@
         <button @click="showLinks">show axios links</button>
         <!-- <button @click="updateServer">update the server</button> -->
 
-        <search-bar></search-bar>
+        <search-bar @changed-query="page = 1"></search-bar>
 
-        <button @click="page--" :disabled="page === 1">prev page</button>
-        <button @click="page++" :disabled="page === numOfPages ">next page</button>
+        <div class="finder__pagination" v-if="numOfPages > 1">
+            <button @click="page--" :disabled="page === 1">prev page</button>
+            <p class="finder__current-page">Page {{ page }} of {{ numOfPages }}</p>
+            <button @click="page++" :disabled="page === numOfPages ">next page</button>
+        </div>
 
-        <ul class="finder__grid">
+        <p class="finder__error" v-if="getQueriedProjects.length === 0">Sorry, no results found</p>
+        <ul class="finder__grid" v-else>
             <li v-for="(project, index) of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
                 <proj-overview :details="project" :viewWidth="viewWidth"></proj-overview>
             </li>
@@ -134,13 +138,13 @@
             // get themes
             this.getThemes();
 
-            // get all projects
-            this.getProjects();
+            // // get all projects
+            // this.getProjects();
 
-            // set up resize window event to pass currrent viewport width into project overview component as prop
-            window.addEventListener('resize', debounce(()=> {
-                this.viewWidth = window.innerWidth;
-            }, 300));
+            // // set up resize window event to pass currrent viewport width into project overview component as prop
+            // window.addEventListener('resize', debounce(()=> {
+            //     this.viewWidth = window.innerWidth;
+            // }, 300));
         },
         components: {
             projOverview: ProjectOverview,
@@ -153,6 +157,11 @@
     @import "../styles/mixins.scss";
 
     .finder {
+
+        &__pagination {
+            display: flex;
+            align-items: center;
+        }
 
         &__grid {
             display: grid;

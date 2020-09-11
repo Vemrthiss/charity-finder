@@ -11,6 +11,11 @@
                 checkedBox: false
             }
         },
+        computed: {
+            currentThemeQueries() {
+                return this.$store.getters.getQueries.themes;
+            }
+        },
         props: {
             searchThemes: Array
         },
@@ -26,6 +31,12 @@
                 this.checkedBox = !this.checkedBox;
                 this.$emit('check-theme', newSearchThemes);
             }
+        },
+        created() {
+            this.checkedBox = this.currentThemeQueries.includes(this.$slots.default[0].text); //to check if this theme is already checked, if so, mark it as checked whenever the popup opens again
+        },
+        updated() {
+            this.checkedBox = this.currentThemeQueries.includes(this.$slots.default[0].text);
         }
     }
 </script>
