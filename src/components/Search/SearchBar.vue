@@ -2,6 +2,10 @@
     <div class="search">
         <h1 class="search__title">Search projects by:</h1>
 
+        <transition name="clear-btn">
+            <button class="btn search__clear-btn" v-if="queriesPresent" @click="clearAllQueries">Clear all search filters</button>
+        </transition>
+
         <div class="search__wrapper">
             <div class="search__bar">
                 <input class="search__input" type="text" placeholder="Text" v-model="searchText">
@@ -77,6 +81,10 @@
             },
             currentThemeQueries() {
                 return this.$store.getters.getQueries.themes;
+            },
+            queriesPresent() {
+                const queriesStateObj = this.$store.getters.getQueries;
+                return queriesStateObj.text || queriesStateObj.country || queriesStateObj.themes.length !== 0;
             }
         },
         methods: {
@@ -86,6 +94,11 @@
             removeThemeQuery($event) {
                 const themeClicked = $event;
                 this.searchThemes = this.searchThemes.filter(theme => theme !== themeClicked);
+            },
+            clearAllQueries() {
+                this.searchText = '';
+                this.searchCountry = '';
+                this.searchThemes = [];
             }
         },
         components: {
@@ -104,6 +117,28 @@
         &__title {
             text-transform: uppercase;
             letter-spacing: .8px;
+        }
+
+        &__clear-btn {
+            display: inline-block;
+            margin: 1rem auto;
+            padding: .7rem 1.2rem;
+            border-radius: 1rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            transition: all .3s;
+
+            &:hover {
+                background: linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary));
+                color: white;
+                transform: translateY(-.4rem);
+                box-shadow: 0 .5rem 1rem rgba(0,0,0, .7);
+            }
+
+            &:active {
+                transform: translateY(-.2rem);
+                box-shadow: 0 .3rem .5rem rgba(0,0,0, .7);
+            }
         }
 
         &__wrapper {
@@ -203,6 +238,14 @@
                 display: flex;
             }
         }
+    }
+
+    .clear-btn-enter-active {
+        animation: zoomIn .7s;
+    }
+
+    .clear-btn-leave-active {
+        animation: zoomOut .7s;
     }
 
     .theme-field-enter-active {
