@@ -32,7 +32,7 @@
             <p class="finder__error" >Sorry, no results found</p>
         </transition>
         <transition-group class="finder__grid" tag="ul" name="grid" v-else>
-            <li v-for="(project, index) of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
+            <li v-for="project of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="project">
                 <proj-overview :details="project" :viewWidth="viewWidth" @changed-query="page = 1"></proj-overview>
             </li>
         </transition-group>
