@@ -8,8 +8,8 @@
 
         <div class="search__wrapper">
             <div class="search__bar">
-                <input class="search__input" type="text" placeholder="Text" v-model="searchText">
-                <input class="search__input" type="text" placeholder="Country" v-model="searchCountry">
+                <input class="search__input" type="text" placeholder="Text" v-model="searchText" :disabled="!projectsLoaded">
+                <input class="search__input" type="text" placeholder="Country" v-model="searchCountry" :disabled="!projectsLoaded">
 
                 <div class="search__themes-header" @click="revealThemes">
                     <p class="search__themes-title">Themes</p>
@@ -53,6 +53,9 @@
                 showThemes: false
             }
         },
+        props: {
+            projectsLoaded: Boolean
+        },
         watch: {
             searchText(newVal) {
                 this.$store.dispatch('changeTextQuery', this.searchText);
@@ -92,7 +95,9 @@
         },
         methods: {
             revealThemes() {
-                this.showThemes = !this.showThemes;
+                if (this.projectsLoaded) {
+                    this.showThemes = !this.showThemes;
+                }
             },
             removeThemeQuery($event) {
                 const themeClicked = $event;

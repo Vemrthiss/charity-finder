@@ -334,40 +334,12 @@
         }
 
         &__theme {
-            // margin: .5rem;
-            // padding: .7rem 0;
-            // padding-right: 1rem;
-            // clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
-            // color: white;
-            // background: var(--color-purple-primary);  /* fallback for old browsers */
-            // background: -webkit-linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary));  /* Chrome 10-25, Safari 5.1-6 */
-            // background: linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
             cursor: default;
-            // transition: all .3s;
 
-            &:hover {
-                // transform: rotate(-3deg) translateX(3px);
-                transform: none;
-            }
-
-            &:active {
-                // transform: rotate(-1deg) translateX(1px);
+            &:hover, &:active {
                 transform: none;
             }
         }
-
-        // &__theme-name {
-        //     margin: 0 .5rem;
-        // }
-
-        // &__theme-circle {
-        //     height: 1rem;
-        //     width: 1rem;
-        //     background-color: white;
-        //     display: inline-block;
-        //     border-radius: 50%;
-        // }
 
         &__icon {
             width: 2.6rem;

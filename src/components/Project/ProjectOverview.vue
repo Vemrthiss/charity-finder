@@ -237,34 +237,8 @@
         }
 
         &__theme {
-            // margin: .5rem;
-            // padding: .7rem 0;
-            // padding-right: 1rem;
-            // clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
-            // cursor: pointer;
-            // transition: all .3s;
-
-            // &:hover {
-            //     transform: rotate(-3deg) translateX(3px);
-            // }
-
-            // &:active {
-            //     transform: rotate(-1deg) translateX(1px);
-            // }
             background-color: rgb(163, 161, 161);
         }
-
-        // &__theme-name {
-        //     margin: 0 .5rem;
-        // }
-
-        // &__theme-circle {
-        //     height: 1rem;
-        //     width: 1rem;
-        //     background-color: white;
-        //     display: inline-block;
-        //     border-radius: 50%;
-        // }
 
         &__icon {
             width: 2.4rem;

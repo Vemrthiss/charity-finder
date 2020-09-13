@@ -5,7 +5,7 @@
         <button @click="showLinks">show axios links</button>
         <!-- <button @click="updateServer">update the server</button> -->
 
-        <search-bar @changed-query="page = 1"></search-bar>
+        <search-bar @changed-query="page = 1" :projectsLoaded="projectsLoaded"></search-bar>
 
         <div class="finder__pagination" v-if="numOfPages > 1">
             <button @click="page--" :disabled="page === 1" class="btn finder__pagination-btn">Previous page</button>
@@ -13,7 +13,7 @@
             <button @click="page++" :disabled="page === numOfPages" class="btn finder__pagination-btn">next page</button>
         </div>
 
-        <transition name="loader" v-if="!projectsLoaded">
+        <transition name="loader" v-if="!projectsLoaded" mode="out-in">
             <div class="finder__loader">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-loader finder__loader-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z"/>
@@ -28,11 +28,11 @@
                 </svg>
             </div>
         </transition>
-        <transition name="error" v-else-if="getQueriedProjects.length === 0 && projectsLoaded" enter-active-class="animate__animated animate__bounceIn" leave-active-class="animate__animated animate__bounceOut">
-            <p class="finder__error" >Sorry, no results found</p>
+        <transition name="error" v-else-if="getQueriedProjects.length === 0 && projectsLoaded" mode="out-in">
+            <p class="finder__error">Sorry, no results found</p>
         </transition>
-        <transition-group class="finder__grid" tag="ul" name="grid" v-else>
-            <li v-for="project of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="project">
+        <transition-group v-else tag="ul" class="finder__grid" name="grid">
+            <li v-for="project of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="project.id">
                 <proj-overview :details="project" :viewWidth="viewWidth" @changed-query="page = 1"></proj-overview>
             </li>
         </transition-group>
@@ -222,7 +222,7 @@
 
         &__error {
             font-size: 2.4rem;
-            text-align: center;
+            display: inline-block;
         }
 
         &__grid {
@@ -245,5 +245,31 @@
 
     .loader-enter-active, .loader-leave-active {
         transition: all 1s;
+    }
+
+    .error-enter, .error-leave-to {
+        transform: scale(.85);
+        opacity: 0;
+    }
+
+    .error-enter-active, .error-leave-active {
+        transition: all 1s;
+    }
+
+    .grid-enter, .grid-leave-to {
+        opacity: 0;
+        transform: scale(.85);
+    }
+
+    .grid-enter-active, .grid-leave-active {
+        transition: all .8s;
+    }
+
+    .grid-leave-active {
+        position: absolute;
+    }
+    
+    .grid-move {
+        transition: transform .8s;
     }
 </style>
