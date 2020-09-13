@@ -33,7 +33,7 @@
         </transition>
         <transition-group class="finder__grid" tag="ul" name="grid" v-else>
             <li v-for="(project, index) of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
-                <proj-overview :details="project" :viewWidth="viewWidth"></proj-overview>
+                <proj-overview :details="project" :viewWidth="viewWidth" @changed-query="page = 1"></proj-overview>
             </li>
         </transition-group>
     </div>
@@ -42,7 +42,7 @@
 <script>
     import axios from 'axios';
     import debounce from 'lodash/debounce';
-    import ProjectOverview from '../components/ProjectOverview.vue';
+    import ProjectOverview from '../components/Project/ProjectOverview.vue';
     import SearchBar from '../components/Search/SearchBar.vue';
 
     export default {

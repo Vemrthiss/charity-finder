@@ -79,10 +79,7 @@
                 </template>
                                 
                 <ul class="project-detail__themes">
-                    <li class="project-detail__theme" v-for="theme of details.themes.theme" :key="theme.id">
-                        <span class="project-detail__theme-name">{{ theme.name }}</span>
-                        <div class="project-detail__theme-circle"></div>
-                    </li>
+                    <project-theme class="project-detail__theme" v-for="theme of details.themes.theme" :key="theme.id" :theme="theme"></project-theme>
                 </ul>
             </div>
         </transition>
@@ -90,6 +87,8 @@
 </template>
 
 <script>
+    import ProjectTheme from'./ProjectTheme.vue';
+
     export default {
         props: {
             details: Object,
@@ -117,12 +116,15 @@
         },
         created() {
             setTimeout(() => {this.enterNow = true}, 50); // to allow transition tag on content body
+        },
+        components: {
+            projectTheme: ProjectTheme
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import "../styles/mixins.scss";
+    @import "../../styles/mixins.scss";
 
     .project-detail__overlay {
         background-color: rgba(0,0,0, .8);
@@ -332,38 +334,40 @@
         }
 
         &__theme {
-            margin: .5rem;
-            padding: .7rem 0;
-            padding-right: 1rem;
-            clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
-            color: white;
-            background: var(--color-purple-primary);  /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary));  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            // margin: .5rem;
+            // padding: .7rem 0;
+            // padding-right: 1rem;
+            // clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+            // color: white;
+            // background: var(--color-purple-primary);  /* fallback for old browsers */
+            // background: -webkit-linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary));  /* Chrome 10-25, Safari 5.1-6 */
+            // background: linear-gradient(to right, var(--color-red-primary), var(--color-purple-primary)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-            cursor: pointer;
-            transition: all .3s;
+            cursor: default;
+            // transition: all .3s;
 
             &:hover {
-                transform: rotate(-3deg) translateX(3px);
+                // transform: rotate(-3deg) translateX(3px);
+                transform: none;
             }
 
             &:active {
-                transform: rotate(-1deg) translateX(1px);
+                // transform: rotate(-1deg) translateX(1px);
+                transform: none;
             }
         }
 
-        &__theme-name {
-            margin: 0 .5rem;
-        }
+        // &__theme-name {
+        //     margin: 0 .5rem;
+        // }
 
-        &__theme-circle {
-            height: 1rem;
-            width: 1rem;
-            background-color: white;
-            display: inline-block;
-            border-radius: 50%;
-        }
+        // &__theme-circle {
+        //     height: 1rem;
+        //     width: 1rem;
+        //     background-color: white;
+        //     display: inline-block;
+        //     border-radius: 50%;
+        // }
 
         &__icon {
             width: 2.6rem;

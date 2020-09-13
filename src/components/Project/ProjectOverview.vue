@@ -39,10 +39,7 @@
             <div class="project__themes-wrapper project__themes-wrapper--inline">
                 <p class="project__themes-title">Themes:</p>
                 <ul class="project__themes">
-                    <li class="project__theme" v-for="theme of details.themes.theme" :key="theme.id">
-                        <span class="project__theme-name">{{ theme.name }}</span>
-                        <div class="project__theme-circle"></div>
-                    </li>
+                    <project-theme class="project__theme" v-for="theme of details.themes.theme" :key="theme.id" :theme="theme" @changed-query="$emit('changed-query')"></project-theme>
                 </ul>
             </div>
         </div>
@@ -61,10 +58,7 @@
             <div class="project__themes-wrapper">
                 <p class="project__themes-title">Themes:</p>
                 <ul class="project__themes">
-                    <li class="project__theme" v-for="theme of details.themes.theme" :key="theme.id" :class="selectedTheme">
-                        <span class="project__theme-name">{{ theme.name }}</span>
-                        <div class="project__theme-circle"></div>
-                    </li>
+                    <project-theme class="project__theme" v-for="theme of details.themes.theme" :key="theme.id" :theme="theme" @changed-query="$emit('changed-query')"></project-theme>
                 </ul>
             </div>
         </template>
@@ -75,6 +69,7 @@
 
 <script>
     import ProjectDetails from './ProjectDetails.vue';
+    import ProjectTheme from'./ProjectTheme.vue';
 
     export default {
         data: function() {
@@ -95,26 +90,18 @@
             },
             onLaptop() {
                 return this.viewWidth > 1024;
-            },
-            currentThemeQueries() {
-                return this.$store.getters.getQueries.themes;
-            },
-            selectedTheme() {
-                return {
-                    'project__theme--selected': true,
-                    'project__theme--not-selected': false
-                }
             }
         },
         components: {
-            projectDetails: ProjectDetails
+            projectDetails: ProjectDetails,
+            projectTheme: ProjectTheme
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import "../styles/mixins.scss";
-    @import "../styles/animations.scss";
+    @import "../../styles/mixins.scss";
+    @import "../../styles/animations.scss";
 
     .project {
         height: 100%;
@@ -250,41 +237,34 @@
         }
 
         &__theme {
-            margin: .5rem;
-            padding: .7rem 0;
-            padding-right: 1rem;
-            clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
-            cursor: pointer;
-            transition: all .3s;
+            // margin: .5rem;
+            // padding: .7rem 0;
+            // padding-right: 1rem;
+            // clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+            // cursor: pointer;
+            // transition: all .3s;
 
-            &:hover {
-                transform: rotate(-3deg) translateX(3px);
-            }
+            // &:hover {
+            //     transform: rotate(-3deg) translateX(3px);
+            // }
 
-            &:active {
-                transform: rotate(-1deg) translateX(1px);
-            }
-
-            &--selected {
-                background: linear-gradient(to right, var(--color-green-primary), var(--color-green-secondary));
-            }
-
-            &--not-selected {
-                background-color: rgb(163, 161, 161);
-            }
+            // &:active {
+            //     transform: rotate(-1deg) translateX(1px);
+            // }
+            background-color: rgb(163, 161, 161);
         }
 
-        &__theme-name {
-            margin: 0 .5rem;
-        }
+        // &__theme-name {
+        //     margin: 0 .5rem;
+        // }
 
-        &__theme-circle {
-            height: 1rem;
-            width: 1rem;
-            background-color: white;
-            display: inline-block;
-            border-radius: 50%;
-        }
+        // &__theme-circle {
+        //     height: 1rem;
+        //     width: 1rem;
+        //     background-color: white;
+        //     display: inline-block;
+        //     border-radius: 50%;
+        // }
 
         &__icon {
             width: 2.4rem;

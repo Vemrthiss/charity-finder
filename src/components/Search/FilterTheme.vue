@@ -25,7 +25,7 @@
             padding: .7rem 0;
             padding-right: 1rem;
             clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
-            background-color: grey;
+            background: linear-gradient(to right, var(--color-green-primary), var(--color-green-secondary));
             cursor: pointer;
             position: relative; // for abs pos of before pseudo element
 

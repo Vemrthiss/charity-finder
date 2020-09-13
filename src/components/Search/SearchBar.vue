@@ -68,6 +68,9 @@
                 this.$store.dispatch('editThemeQueries', this.searchThemes);
                 this.$store.dispatch('filterProjects');
                 this.$emit('changed-query'); // to tell finder component that a query was changed ==> to reset to page 1
+            },
+            currentThemeQueries(newVal) {
+                this.searchThemes = newVal; // sub-par solution, makes this local state "searchThemes" point to same location in memory as the store state of query themes
             }
         },
         computed: {
