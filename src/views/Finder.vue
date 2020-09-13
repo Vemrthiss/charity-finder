@@ -8,18 +8,34 @@
         <search-bar @changed-query="page = 1"></search-bar>
 
         <div class="finder__pagination" v-if="numOfPages > 1">
-            <button @click="page--" :disabled="page === 1">prev page</button>
-            <p class="finder__current-page">Page {{ page }} of {{ numOfPages }}</p>
-            <button @click="page++" :disabled="page === numOfPages ">next page</button>
+            <button @click="page--" :disabled="page === 1" class="btn finder__pagination-btn">Previous page</button>
+            <p class="finder__current-page">{{ page }} of {{ numOfPages }}</p>
+            <button @click="page++" :disabled="page === numOfPages" class="btn finder__pagination-btn">next page</button>
         </div>
 
-        <p class="finder__error" v-if="getQueriedProjects.length === 0">Sorry, no results found</p>
-        <ul class="finder__grid" v-else>
+        <transition name="loader" v-if="!projectsLoaded">
+            <div class="finder__loader">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-loader finder__loader-icon" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z"/>
+                    <line x1="12" y1="6" x2="12" y2="3" />
+                    <line x1="16.25" y1="7.75" x2="18.4" y2="5.6" />
+                    <line x1="18" y1="12" x2="21" y2="12" />
+                    <line x1="16.25" y1="16.25" x2="18.4" y2="18.4" />
+                    <line x1="12" y1="18" x2="12" y2="21" />
+                    <line x1="7.75" y1="16.25" x2="5.6" y2="18.4" />
+                    <line x1="6" y1="12" x2="3" y2="12" />
+                    <line x1="7.75" y1="7.75" x2="5.6" y2="5.6" />
+                </svg>
+            </div>
+        </transition>
+        <transition name="error" v-else-if="getQueriedProjects.length === 0 && projectsLoaded" enter-active-class="animate__animated animate__bounceIn" leave-active-class="animate__animated animate__bounceOut">
+            <p class="finder__error" >Sorry, no results found</p>
+        </transition>
+        <transition-group class="finder__grid" tag="ul" name="grid" v-else>
             <li v-for="(project, index) of getQueriedProjects.slice(projectIndices.start, projectIndices.end)" :key="index">
                 <proj-overview :details="project" :viewWidth="viewWidth"></proj-overview>
             </li>
-        </ul>
-
+        </transition-group>
     </div>
 </template>
 
@@ -35,7 +51,8 @@
                 apiData: 'nothing',
                 page: 1,
                 resPerPage: 10,
-                viewWidth: window.innerWidth
+                viewWidth: window.innerWidth,
+                projectsLoaded: false
             }
         },
         computed: {
@@ -59,7 +76,7 @@
             },
             projectIndices() {
                 let start = (this.page-1) * this.resPerPage;
-                let end = this.page * this.resPerPage > this.numOfProjects ? this.numOfProjects : this.page * this.resPerPage //prevents invalud/overshot end index
+                let end = this.page * this.resPerPage > this.numOfProjects ? this.numOfProjects : this.page * this.resPerPage //prevents invalid/overshot end index
                 
                 return { //es6 shorthand property name
                     start,
@@ -93,6 +110,8 @@
 
                 // now this route is rendering the queried array all the time, and on route creation (this route is kept alive) we set the queried array to be the whole project array
                 this.$store.dispatch('setInitialQueriedProjects');
+
+                this.projectsLoaded = true; //to remove spinning loader icon
                 
                 console.log('completed projects');
             },
@@ -138,13 +157,13 @@
             // get themes
             this.getThemes();
 
-            // // get all projects
-            // this.getProjects();
+            // get all projects
+            this.getProjects();
 
-            // // set up resize window event to pass currrent viewport width into project overview component as prop
-            // window.addEventListener('resize', debounce(()=> {
-            //     this.viewWidth = window.innerWidth;
-            // }, 300));
+            // set up resize window event to pass currrent viewport width into project overview component as prop
+            window.addEventListener('resize', debounce(()=> {
+                this.viewWidth = window.innerWidth;
+            }, 300));
         },
         components: {
             projOverview: ProjectOverview,
@@ -155,12 +174,55 @@
 
 <style lang="scss" scoped>
     @import "../styles/mixins.scss";
+    @import "../styles/animations.scss";
 
     .finder {
 
         &__pagination {
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        &__pagination-btn {
+            padding: .7rem 1rem;
+            border-radius: .7rem;
+            text-transform: uppercase;
+            transition: all .3s;
+
+            &:hover {
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 .5rem 1rem rgba(0,0,0, .7);
+            }
+
+            &:active {
+                transform: translateY(-1px) scale(1.02);
+                box-shadow: 0 .5rem .7rem rgba(0,0,0, .7);
+            }
+        }
+
+        &__current-page {
+            margin: 0 1.5rem;
+            font-size: 1.6rem;
+        }
+
+        &__loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &__loader-icon {
+            animation: infiniteRotation .7s infinite;
+            width: 7.5rem;
+            height: 7.5rem;
+        }
+
+        &__error {
+            font-size: 2.4rem;
+            text-align: center;
         }
 
         &__grid {
@@ -174,5 +236,14 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+    }
+
+    .loader-enter, .loader-leave-to {
+        transform: translate(-50%, 0);
+        opacity: 0;
+    }
+
+    .loader-enter-active, .loader-leave-active {
+        transition: all 1s;
     }
 </style>

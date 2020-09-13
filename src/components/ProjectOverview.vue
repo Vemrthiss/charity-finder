@@ -61,7 +61,7 @@
             <div class="project__themes-wrapper">
                 <p class="project__themes-title">Themes:</p>
                 <ul class="project__themes">
-                    <li class="project__theme" v-for="theme of details.themes.theme" :key="theme.id">
+                    <li class="project__theme" v-for="theme of details.themes.theme" :key="theme.id" :class="selectedTheme">
                         <span class="project__theme-name">{{ theme.name }}</span>
                         <div class="project__theme-circle"></div>
                     </li>
@@ -95,6 +95,15 @@
             },
             onLaptop() {
                 return this.viewWidth > 1024;
+            },
+            currentThemeQueries() {
+                return this.$store.getters.getQueries.themes;
+            },
+            selectedTheme() {
+                return {
+                    'project__theme--selected': true,
+                    'project__theme--not-selected': false
+                }
             }
         },
         components: {
@@ -245,7 +254,6 @@
             padding: .7rem 0;
             padding-right: 1rem;
             clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
-            background-color: grey;
             cursor: pointer;
             transition: all .3s;
 
@@ -255,6 +263,14 @@
 
             &:active {
                 transform: rotate(-1deg) translateX(1px);
+            }
+
+            &--selected {
+                background: linear-gradient(to right, var(--color-green-primary), var(--color-green-secondary));
+            }
+
+            &--not-selected {
+                background-color: rgb(163, 161, 161);
             }
         }
 

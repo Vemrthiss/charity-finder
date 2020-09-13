@@ -183,6 +183,10 @@
             border: 1px solid black;
             padding: .5rem 1rem;
             border-radius: 1rem;
+
+            &:placeholder-shown {
+                
+            }
         }
 
         &__themes-header {
