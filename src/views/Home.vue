@@ -14,6 +14,10 @@
         components: {
             heading: Header,
             about: About
+        },
+        beforeCreate() {
+            const body = document.querySelector('body');
+            body.classList.remove('body--finder');
         }
     }
 </script>

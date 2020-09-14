@@ -124,7 +124,8 @@
 
         &__title {
             text-transform: uppercase;
-            letter-spacing: .8px;
+            letter-spacing: 1px;
+            font-size: 3rem;
         }
 
         &__clear-btn {
@@ -169,6 +170,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            font-size: 1.4rem;
 
             @include respond-tab {
                 display: grid;
@@ -184,6 +186,18 @@
             @include respond-desktop {
                 gap: 3rem;
             }
+
+            & > * {
+                width: 65%;
+
+                @include respond-tab-small {
+                    width: 55%;
+                }
+
+                @include respond-tab {
+                    width: auto;
+                }
+            }
         }
 
         &__input {
@@ -191,9 +205,16 @@
             border: 1px solid black;
             padding: .5rem 1rem;
             border-radius: 1rem;
+            font-size: inherit;
+            transition: all .2s;
+            margin-bottom: 1rem;
 
             &:placeholder-shown {
-                
+                border: 2px solid var(--color-blue-secondary);
+            }
+
+            @include respond-laptop {
+                margin-bottom: 0;
             }
         }
 
@@ -221,8 +242,9 @@
             display: grid;
             gap: 1rem;
             grid-template-columns: repeat(2, 1fr);
+            align-items: center;
 
-            @include respond-tab {
+            @include respond-tab-small {
                 grid-template-columns: repeat(3, 1fr);
             }
 

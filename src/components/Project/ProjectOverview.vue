@@ -106,7 +106,7 @@
     .project {
         height: 100%;
         padding: 1rem;
-        border: 1px solid grey;
+        background-color: rgba(240, 240, 240, .8);
         border-radius: 3rem;
         text-align: center;
         position: relative; //for abs positioning of location wrapper at laptop breakpoint
@@ -146,7 +146,7 @@
                 content: "";
                 height: 1.25px;
                 width: 70%;
-                background-color: rgba(#eee, 1);
+                background-color: rgba(0,0,0, .15);
                 position: absolute;
                 bottom: -2px;
                 left: 50%;
@@ -157,7 +157,7 @@
         &__goal-progress-bar {
             width: 20rem;
             height: 2rem;
-            background-color: rgba(#eee, .9);
+            background-color: white;
             position: relative;
             border-radius: 1rem;
 
@@ -192,6 +192,8 @@
             padding: .8rem 1.2rem;
             border-radius: 3rem;
             transition: all .3s;
+            background-color: white;
+            font-size: 1.2rem;
 
             &:hover {
                 transform: translateY(-.4rem);

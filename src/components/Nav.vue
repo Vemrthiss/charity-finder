@@ -12,5 +12,10 @@
 </script>
 
 <style lang="scss" scoped>
-    
+    .nav {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        width: 100%;
+    }
 </style>

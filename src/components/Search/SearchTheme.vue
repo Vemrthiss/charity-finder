@@ -63,9 +63,13 @@
             display: inline-block; //else won't appear
             position: absolute;
             top: 50%;
-            left: 5%;
+            left: 0;
             transform: translate(-50%, -50%);
             transition: all .15s;
+
+            @include respond-tab {
+                left: 5%;
+            }
         }
 
         &:hover {

@@ -1,8 +1,5 @@
 <template>
     <div class="finder">
-        <h1>This is the finder page</h1>
-        <button @click="getState">show state data</button>
-        <button @click="showLinks">show axios links</button>
         <!-- <button @click="updateServer">update the server</button> -->
 
         <search-bar @changed-query="page = 1" :projectsLoaded="projectsLoaded"></search-bar>
@@ -85,13 +82,6 @@
             }
         },
         methods: {
-            getState() {
-                console.log(this.$store.state);
-            },
-            showLinks() {
-                console.log(this.themeURL);
-                console.log(this.projectsURL);
-            },
             async getThemes() {
                 // FIREBASE RETRIEVING
                 console.log('retrieving themes');
@@ -168,6 +158,20 @@
         components: {
             projOverview: ProjectOverview,
             searchBar: SearchBar
+        },
+        watch: {
+            $route(to, from) { //add/remove class on body on route changes AFTER initialisation
+                const body = document.querySelector('body');
+                if (to.name === 'Finder') {
+                    body.classList.add('body--finder');
+                } else if (to.name === 'Home') {
+                    body.classList.remove('body--finder');
+                }
+            }
+        },
+        beforeCreate() { //adds class on body on finder route on initialisation
+            const body = document.querySelector('body');
+            body.classList.add('body--finder');
         }
     }
 </script>
