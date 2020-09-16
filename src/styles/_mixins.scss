@@ -1,15 +1,15 @@
-@mixin respond-tab-small {
+@mixin respond-tab-small { //416px
     @media only screen and (min-width: 26em){@content;}
 }
 
-@mixin respond-tab {
+@mixin respond-tab { // 768px
     @media only screen and (min-width: 48em){@content;}
 }
 
-@mixin respond-laptop {
+@mixin respond-laptop { //1024px
     @media only screen and (min-width: 64em){@content;}
 }
 
-@mixin respond-desktop {
+@mixin respond-desktop { //1376px
     @media only screen and (min-width: 86em){@content;}
 }
