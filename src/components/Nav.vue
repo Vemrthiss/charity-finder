@@ -15,7 +15,9 @@
     .nav {
         display: flex;
         justify-content: center;
-        position: fixed;
-        width: 100%;
+
+        &--sticky { //applied once user scrolls 
+
+        }
     }
 </style>
