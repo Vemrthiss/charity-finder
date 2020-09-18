@@ -1,19 +1,11 @@
-# charity-finder
+# Stifind | Charity Finder
 
-## Project setup
+## Project details
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+First Vue app completed on 19/9/2020. API powered by [GlobalGiving](https://www.globalgiving.org/api/). Website can be found at <https://cranky-sammet-bf2b5e.netlify.app>
 ```
 
-### Compiles and minifies for production
+### Technologies used
 ```
-npm run build
+SCSS, VueJS
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
