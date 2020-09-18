@@ -43,13 +43,15 @@
         },
         methods: {
             calcScrolling() {
-                const scrollPercent = (this.$el.getBoundingClientRect().top / window.innerHeight) * 100;
-                if (scrollPercent < 25) { //i.e: once element reaches at least top 25% of viewport
-                    this.onAbout = true;
-                } else {
-                    this.onAbout = false;
+                if (this.$route.name === 'Home') { //only run this when page is on base url and not in finder
+                    const scrollPercent = (this.$el.getBoundingClientRect().top / window.innerHeight) * 100;
+                    if (scrollPercent < 25) { //i.e: once element reaches at least top 25% of viewport
+                        this.onAbout = true;
+                    } else {
+                        this.onAbout = false;
+                    }
+                    this.$emit('on-about', this.onAbout); //to tell parent component (home) that 25% of viewport is already on about section
                 }
-                this.$emit('on-about', this.onAbout); //to tell parent component (home) that 25% of viewport is already on about section
             }
         },
         created() {
@@ -59,6 +61,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '../styles/mixins.scss';
+
     .about {
         text-align: center;
 
@@ -66,10 +70,34 @@
             font-size: 2rem;
             margin: 0;
             margin-bottom: 2rem;
+
+            @include respond-tab-small {
+                font-size: 2.1rem;
+            }
+
+            @include respond-laptop {
+                font-size: 2.2rem;
+            }
         }
 
         &__img {
-            width: 40%;
+            width: 80%;
+
+            @include respond-tab-small {
+                width: 70%;
+            }
+
+            @include respond-tab {
+                width: 60%;
+            }
+
+            @include respond-laptop {
+                width: 50%;
+            }
+
+            @include respond-desktop {
+                width: 40%;
+            }
 
             & > * {
                 width: inherit;

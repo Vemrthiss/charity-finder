@@ -45,11 +45,15 @@
     @import "../../styles/mixins.scss";
 
     .search__theme {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         padding: 1rem;
         position: relative;
         cursor: pointer;
         transition: all .2s;
+
+        @include respond-tab {
+            font-size: 1.6rem;
+        }
 
         @include respond-laptop {
             font-size: 1.4rem;

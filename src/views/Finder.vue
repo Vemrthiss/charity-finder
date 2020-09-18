@@ -194,6 +194,7 @@
             border-radius: .7rem;
             text-transform: uppercase;
             transition: all .3s;
+            font-size: 1.4rem;
 
             &:hover {
                 transform: translateY(-2px) scale(1.05);

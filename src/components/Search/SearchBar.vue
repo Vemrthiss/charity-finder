@@ -1,6 +1,6 @@
 <template>
     <div class="search">
-        <h1 class="search__title">Search projects by:</h1>
+        <h1 class="search__title" :class="titleClass">Search projects by:</h1>
 
         <transition name="clear-btn">
             <button class="btn search__clear-btn" v-if="queriesPresent" @click="clearAllQueries">Clear all search filters</button>
@@ -50,7 +50,7 @@
                 searchText: '',
                 searchCountry: '',
                 searchThemes: [],
-                showThemes: false
+                showThemes: false,
             }
         },
         props: {
@@ -91,6 +91,11 @@
             queriesPresent() {
                 const queriesStateObj = this.$store.getters.getQueries;
                 return queriesStateObj.text || queriesStateObj.country || queriesStateObj.themes.length !== 0;
+            },
+            titleClass() {
+                return {
+                    'search__title--queried': this.queriesPresent
+                }
             }
         },
         methods: {
@@ -126,6 +131,11 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 3rem;
+            transition: margin-bottom .3s;
+
+            &--queried {
+                margin-bottom: 0;
+            }
         }
 
         &__clear-btn {
@@ -175,6 +185,7 @@
             @include respond-tab {
                 display: grid;
                 grid-template-columns: repeat(2, 40%) 1fr;
+                align-items: center;
                 gap: 1rem;
                 height: auto;
             }
@@ -213,7 +224,7 @@
                 border: 2px solid var(--color-blue-secondary);
             }
 
-            @include respond-laptop {
+            @include respond-tab {
                 margin-bottom: 0;
             }
         }
@@ -226,7 +237,9 @@
         }
 
         &__themes-title {
+            margin: 0;
             margin-right: 1rem;
+            font-size: 1.6rem;
         }
 
         &__themes-icon {
@@ -257,7 +270,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.2rem;
+            font-size: 1.6rem;
+
+            @include respond-tab {
+                font-size: 1.4rem;
+            }
         }
 
         &__filter-label {
@@ -269,7 +286,8 @@
             padding: 0;
 
             &--wrapper {
-                display: flex;
+                display: flex;  
+                flex-wrap: wrap;
             }
         }
     }

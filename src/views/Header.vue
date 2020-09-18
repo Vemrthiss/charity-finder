@@ -19,6 +19,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '../styles/mixins.scss';
+
     .header {
         background: var(--color-blue-primary);  /* fallback for old browsers */
         background: -webkit-linear-gradient(to right, var(--color-blue-secondary), var(--color-blue-primary));  /* Chrome 10-25, Safari 5.1-6 */
@@ -38,10 +40,14 @@
         }
 
         &__heading {
-            font-size: 3rem;
+            font-size: 3.3rem;
             font-weight: 300;
             letter-spacing: 1.5px;
             text-transform: uppercase;
+
+            @include respond-laptop {
+                font-size: 3.5rem;
+            }
         }
 
         &__title {
