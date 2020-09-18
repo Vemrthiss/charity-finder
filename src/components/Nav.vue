@@ -18,16 +18,21 @@
                 onFinder: false
             }
         },
+        props: {
+            onAbout: Boolean
+        },
         computed: {
             burgerClass() {
                 return {
                     'nav-burger__centre--collapsed': this.menuShown,
-                    'nav-burger__centre--finder': this.onFinder
+                    'nav-burger__centre--finder': this.onFinder,
+                    'nav-burger__centre--about': this.onAbout
                 };
             },
             linkClass() {
                 return {
-                    'nav-content__link--finder': this.onFinder
+                    'nav-content__link--finder': this.onFinder,
+                    'nav-content__link--about': this.onAbout
                 }
             },
             navClass() {
@@ -148,7 +153,7 @@
                 }
             }
 
-            &--finder {
+            &--finder, &--about {
                 background-color: rgba(0, 0, 0, .8);
 
                 &::before, &::after {
@@ -180,7 +185,7 @@
                 transform: translateY(-1.5px) scale(1.05);
             }
 
-            &--finder {
+            &--finder, &--about {
                 color: black;
             }
 

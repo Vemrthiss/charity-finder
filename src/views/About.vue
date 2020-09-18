@@ -28,11 +28,32 @@
 <script>
     import toFind from '../components/BtnToFind.vue';
     import aboutGroup from './AboutGroup.vue';
+    import throttle from 'lodash/throttle';
 
     export default {
+        data: function() {
+            return {
+                onAbout: false,
+                throttledScroller: throttle(this.calcScrolling, 200).bind(this)
+            }
+        },
         components: {
             toFind,
             aboutGroup
+        },
+        methods: {
+            calcScrolling() {
+                const scrollPercent = (this.$el.getBoundingClientRect().top / window.innerHeight) * 100;
+                if (scrollPercent < 25) { //i.e: once element reaches at least top 25% of viewport
+                    this.onAbout = true;
+                } else {
+                    this.onAbout = false;
+                }
+                this.$emit('on-about', this.onAbout); //to tell parent component (home) that 25% of viewport is already on about section
+            }
+        },
+        created() {
+            window.addEventListener('scroll', this.throttledScroller);
         }
     }
 </script>

@@ -1,10 +1,10 @@
 <template>
     <div>
-        <nav-bar></nav-bar>
+        <nav-bar :onAbout="onAbout"></nav-bar>
 
         <!-- keep alive the router-view so that the finder route will not lose its data/user preferences when switching -->
         <keep-alive> 
-            <router-view></router-view>
+            <router-view @on-about="navOnAbout"></router-view>
         </keep-alive>
     </div>
 </template>
@@ -15,6 +15,16 @@
     export default {
         components: {
             navBar: Nav
+        },
+        data: function() {
+            return {
+                onAbout: false
+            }
+        },
+        methods: {
+            navOnAbout($event) {
+                this.onAbout = $event; 
+            }
         }
     }
 </script>

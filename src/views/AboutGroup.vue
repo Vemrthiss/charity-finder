@@ -24,12 +24,11 @@
         methods: {
             calcScrolling(el) {
                 const scrollPercent = (el.getBoundingClientRect().top / window.innerHeight) * 100;
-                if (scrollPercent < 75) { //i.e: once element reaches at least btm 25% of viewport
+                if (scrollPercent < 90) { //i.e: once element reaches at least btm 15% of viewport
                     this.isRevealed = true;
                 }
             },
             scrollCaller() {
-                console.log('scroll function ran');
                 this.calcScrolling(this.$el);
             }
         },
@@ -48,7 +47,7 @@
 
 <style lang="scss" scoped>
     .about-group {
-        transition: all 1s;
+        transition: all 1.25s;
         opacity: 0;
         transform: translateY(4rem);
 
@@ -59,6 +58,10 @@
 
         &:not(:first-child) {
             margin: 10rem 0;
+        }
+
+        &:last-child {
+            margin-bottom: 5rem;
         }
     }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="main">
         <heading></heading>
-        <about></about>
+        <about @on-about="emitToApp"></about>
     </div>
 </template>
 
@@ -18,6 +18,11 @@
         beforeCreate() {
             const body = document.querySelector('body');
             body.classList.remove('body--finder');
+        },
+        methods: {
+            emitToApp($event) { //tells app that nav is on "about" section, received from about view component
+                this.$emit('on-about', $event);
+            }
         }
     }
 </script>
