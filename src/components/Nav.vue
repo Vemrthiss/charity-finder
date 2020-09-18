@@ -114,7 +114,7 @@
         }
 
         &--hidden {
-            opacity: 0;
+            display: none;
         }
 
         &__github {
