@@ -106,7 +106,7 @@
                 this.enterNow = false;
                 await wait(1000);
                 this.$emit('close-overlay');
-                
+                this.$store.dispatch('toggleOverlay', false);
             },
             closeOverlayExternal($event) {
                 if (!this.$refs.content.contains($event.target)) { //checks if user clicks an area NOT inside the main body/content div
@@ -115,6 +115,7 @@
             }
         },
         created() {
+            this.$store.dispatch('toggleOverlay', true);
             setTimeout(() => {this.enterNow = true}, 50); // to allow transition tag on content body
         },
         components: {

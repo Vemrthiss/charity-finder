@@ -16,7 +16,8 @@ export default new Vuex.Store({
       country: '',
       themes: []
     },
-    queriedProjects: []
+    queriedProjects: [],
+    showProjectOverlay: false
   },
   getters: {
     getUrl: state => type => {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
     getQueriedProjects: state => {
       return state.queriedProjects;
+    },
+    isProjectOverlay: state => {
+      return state.showProjectOverlay;
     }
   },
   mutations: {
@@ -88,6 +92,9 @@ export default new Vuex.Store({
           return hasText && hasCountry && hasTheme;
         });
       }
+    },
+    overlayProject(state, payload) { //payload is a boolean reflecting new state of overlay
+      state.showProjectOverlay = payload;
     }
   },
   actions: {
@@ -123,6 +130,9 @@ export default new Vuex.Store({
     },
     filterProjects({commit}) {
       commit('filterProjects');
+    },
+    toggleOverlay({commit}, payload) {
+      commit('overlayProject', payload);
     }
   }
 })

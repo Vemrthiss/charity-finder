@@ -43,11 +43,15 @@
             },
             navClass() {
                 return {
-                    'nav--finder': this.onFinder
+                    'nav--finder': this.onFinder,
+                    'nav--hidden': this.projectOverlayShown
                 }
             },
             githubStrokeColor() {
                 return this.onFinder || this.onAbout ? '#000000' : '#ffffff';
+            },
+            projectOverlayShown() {
+                return this.$store.getters.isProjectOverlay;
             }
         },
         watch: {
@@ -107,6 +111,10 @@
         @include respond-desktop {
             top: 4.5rem;
             right: 4.5rem;
+        }
+
+        &--hidden {
+            opacity: 0;
         }
 
         &__github {
